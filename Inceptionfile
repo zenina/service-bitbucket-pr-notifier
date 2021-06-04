@@ -1,0 +1,33 @@
+project:
+  wip: false
+  name: service-bitbucket-pr-notifier
+  repository:
+    host: 286694495060.dkr.ecr.us-east-1.amazonaws.com
+  groups:
+  - all
+  - ops
+  - services
+  commands:
+    dependencies: make dependencies
+    build: make build
+    test: make test
+    version: make version
+    manifest: make manifest
+    environments: make environments
+  triggers:
+    dependencies:
+    - src/* 
+    - Makefile
+    build:
+    - src/*
+    - Dockerfile
+    - Makefile
+    - ../shared/components/go/endpoints/*
+    - ../shared/components/go/secrets/*
+    - ../shared/components/go/version/*
+    deploy:
+    - ../../bin/versions
+    - ../../bin/render-manifest
+    - infrastructure/base/*
+    - infrastructure/${DEPLOYMENT_NAME}/*
+    - ../shared/kubernetes/*
